@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#7b2cbf" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="Noms" />
+  <title>Noms — Exclusive Friends App</title>
+  <style>
+    * { box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #5a189a, #c77dff, #ff70a6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      color: #fff;
+    }
+    .phone-card {
+      width: 100%;
+      max-width: 390px;
+      background: rgba(36, 0, 70, 0.88);
+      backdrop-filter: blur(12px);
+      border: 2px solid #ff85a1;
+      border-radius: 28px;
+      padding: 28px 22px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.4);
+      text-align: center;
+    }
+    .logo {
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: 4px;
+      background: linear-gradient(90deg, #ff85a1, #e0aaff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin: 0;
+    }
+    .subtitle { color: #f7cad0; font-size: 0.9rem; margin: 4px 0 22px; }
+    .step { display: none; animation: fadeIn 0.3s ease; }
+    .step.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    input {
+      width: 100%;
+      padding: 14px;
+      border-radius: 14px;
+      border: 1.5px solid #c77dff;
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+      font-size: 1rem;
+      margin-bottom: 14px;
+      outline: none;
+    }
+    input::placeholder { color: #e0aaff; }
+    .btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(90deg, #ff4d8d, #9d4edd);
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid #ff85a1;
+    }
+    .error { color: #ff8fa3; font-size: 0.9rem; min-height: 22px; margin-bottom: 8px; }
+    .note-box {
+      background: rgba(255, 133, 161, 0.15);
+      border-radius: 14px;
+      padding: 12px;
+      text-align: left;
+      margin-top: 12px;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="phone-card">
+    <h1 class="logo">NOMS</h1>
+    <p class="subtitle">Exclusive Besties Circle</p>
+
+    <!-- STEP 1: ARE YOU NOMS' FRIEND? -->
+    <div id="step1" class="step active">
+      <p>Are you Noms' friend?</p>
+      <div id="err1" class="error"></div>
+      <button class="btn" onclick="answerFriend(true)">Yes, I am!</button>
+      <button class="btn btn-secondary" onclick="answerFriend(false)">No</button>
+    </div>
+
+    <!-- STEP 2: ENTER STORED NAME -->
+    <div id="step2" class="step">
+      <p>Enter your name as stored in Noms' app:</p>
+      <input id="friendNameInput" type="text" placeholder="e.g. Lizzy K" />
+      <div id="err2" class="error"></div>
+      <button class="btn" onclick="checkFriendName()">Continue</button>
+    </div>
+
+    <!-- STEP 3: SECURITY CHECK -->
+    <div id="step3" class="step">
+      <p>To prove you're really Noms' friend, enter Noms' full name:</p>
+      <input id="fullNameInput" type="text" placeholder="Enter Noms' full name" />
+      <div id="err3" class="error"></div>
+      <button class="btn" onclick="checkFullName()">Unlock Noms</button>
+    </div>
+
+    <!-- STEP 4: NOMS LOUNGE (LOGGED IN) -->
+    <div id="dashboard" class="step">
+      <h3 id="welcomeMsg" style="color:#ff85a1; margin-top:0;">Welcome!</h3>
+      <div class="note-box">
+        <strong>Noms' Official Circle:</strong><br/>
+        • Lizzy K<br/>
+        • K Lydia
+      </div>
+      <div style="margin-top:16px;">
+        <input id="noteInput" type="text" placeholder="Leave a sweet note for Noms..." />
+        <button class="btn" onclick="saveNote()">Send Note to Noms</button>
+      </div>
+      <div id="notesList"></div>
+      <button class="btn btn-secondary" style="margin-top:12px;" onclick="logout()">Log Out</button>
+    </div>
+  </div>
+
+  <script>
+    let currentUser = "";
+
+    function showStep(id) {
+      document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
+
+    function answerFriend(isFriend) {
+      if (isFriend) {
+        showStep('step2');
+      } else {
+        document.getElementById('err1').textContent = "Sorry! Only Noms' close friends are allowed inside.";
+      }
+    }
+
+    function checkFriendName() {
+      const val = document.getElementById('friendNameInput').value.trim().toLowerCase();
+      if (val === "lizzy k") {
+        currentUser = "Lizzy K";
+        showStep('step3');
+      } else if (val === "k lydia") {
+        currentUser = "K Lydia";
+        showStep('step3');
+      } else {
+        document.getElementById('err2').textContent = "Name not recognized in Noms' circle! Try again.";
+      }
+    }
+
+    function checkFullName() {
+      const val = document.getElementById('fullNameInput').value.trim().toLowerCase();
+      if (val === "luvinga nominaanda") {
+        document.getElementById('welcomeMsg').textContent = "Welcome into Noms, " + currentUser + "!";
+        renderNotes();
+        showStep('dashboard');
+      } else {
+        document.getElementById('err3').textContent = "That's not Noms' full name! Try again.";
+      }
+    }
+
+    function saveNote() {
+      const text = document.getElementById('noteInput').value.trim();
+      if (!text) return;
+      const notes = JSON.parse(localStorage.getItem('noms_notes') || '[]');
+      notes.unshift({ from: currentUser, text });
+      localStorage.setItem('noms_notes', JSON.stringify(notes));
+      document.getElementById('noteInput').value = "";
+      renderNotes();
+    }
+
+    function renderNotes() {
+      const notes = JSON.parse(localStorage.getItem('noms_notes') || '[]');
+      const box = document.getElementById('notesList');
+      box.innerHTML = notes.map(n => `<div class="note-box"><strong>${n.from}:</strong> ${n.text}</div>`).join('');
+    }
+
+    function logout() {
+      currentUser = "";
+      document.getElementById('friendNameInput').value = "";
+      document.getElementById('fullNameInput').value = "";
+      document.querySelectorAll('.error').forEach(e => e.textContent = "");
+      showStep('step1');
+    }
+  </script>
+</body>
+</html>
