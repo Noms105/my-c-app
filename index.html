@@ -169,8 +169,8 @@
       <h1 class="logo">NOMS</h1>
       <p style="font-size:1.1rem; margin-bottom:20px;">Are you Noms' friend?</p>
       <div id="err-ask" class="error"></div>
-      <button class="btn" onclick="handleFriendQuestion(true)">Yes</button>
-      <button class="btn btn-outline" onclick="handleFriendQuestion(false)">No</button>
+      <button id="btn-yes" type="button" class="btn">Yes</button>
+      <button id="btn-no" type="button" class="btn btn-outline">No</button>
     </div>
 
     <div id="screen-login" class="login-container" style="display:none;">
@@ -180,21 +180,21 @@
       <label for="input-noms-name">Noms' Full Name</label>
       <input id="input-noms-name" type="text" autocomplete="off" />
       <div id="err-login" class="error"></div>
-      <button class="btn" onclick="attemptLogin()">Log In</button>
+      <button id="btn-login" type="button" class="btn">Log In</button>
     </div>
 
     <div id="main-app" class="main-layout">
       <div class="left-sidebar">
-        <button id="nav-home" class="nav-icon-btn active" onclick="switchView('home')">
+        <button id="nav-home" type="button" class="nav-icon-btn active" onclick="switchView('home')">
           <span class="emoji-ico">🏠</span><span>Home</span>
         </button>
-        <button id="nav-chat" class="nav-icon-btn" onclick="switchView('chat')">
+        <button id="nav-chat" type="button" class="nav-icon-btn" onclick="switchView('chat')">
           <span class="emoji-ico">💬</span><span>Chat</span>
         </button>
-        <button id="nav-pets" class="nav-icon-btn" onclick="switchView('pets')">
+        <button id="nav-pets" type="button" class="nav-icon-btn" onclick="switchView('pets')">
           <span class="emoji-ico">🐾</span><span>Pets</span>
         </button>
-        <button class="nav-icon-btn" style="margin-top:auto;" onclick="logout()">
+        <button type="button" class="nav-icon-btn" style="margin-top:auto;" onclick="logout()">
           <span class="emoji-ico">🚪</span><span>Exit</span>
         </button>
       </div>
