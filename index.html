@@ -30,8 +30,6 @@
       flex-direction: column;
       position: relative;
     }
-
-    /* LOGIN SCREENS */
     .login-container {
       flex: 1;
       display: flex;
@@ -90,7 +88,7 @@
     }
     .error { color: #ff758f; font-size: 0.9rem; min-height: 22px; margin-bottom: 10px; }
 
-    /* MAIN APP LAYOUT (LEFT ICONS + RIGHT CONTENT) */
+    /* MAIN APP LAYOUT */
     .main-layout {
       display: none;
       flex: 1;
@@ -166,7 +164,7 @@
     .view-section { display: none; flex: 1; flex-direction: column; }
     .view-section.active { display: flex; }
 
-    /* CHAT ROOM WITH BIG BRIGHT WATERMARK */
+    /* CHAT ROOM */
     .chat-wrapper {
       flex: 1;
       display: flex;
@@ -382,6 +380,7 @@
 <body>
   <div class="app-shell">
 
-    <!-- STEP 1: PRE-LOGIN QUESTION -->
     <div id="screen-ask" class="login-container">
       <h1 class="logo">NOMS</h1>
+      <p style="font-size:1.1rem; margin-bottom:20px;">Are you Noms' friend?</p>
+      <div id="err-ask" class="error"></div>
